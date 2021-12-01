@@ -2,6 +2,61 @@ import * as soap from 'soap'
 import * as xml2json from 'xml2json'
 // TODO: replace any type with cool custom types
 // BODY: types like StudentVueSchedule
+
+// begin types
+// im guessing that it returns the same format for all schools
+// im going to be screwed if not
+
+export type Course = {
+    Period: string,
+    CourseTitle: string,
+    RoomName: string,
+    TeacherName: string,
+    TeacherEmail: string,
+    SectionGU: string,
+    TeacherStaffGU: string
+}
+export type Term = {
+    TermIndex: string,
+    TermCode: string,
+    TermName: string,
+    BeginDate: string,
+    EndDate: string,
+    SchoolYearTrmCodeGU: string,
+    TermDefCodes: {
+        TermDefCode: {
+            TermDefName: string
+        }[]
+    }
+}
+
+export type StudentVueError = {
+    RT_ERROR: { ERROR_MESSAGE: string, STACK_TRACE: string }
+}
+
+
+export type StudentVueSchedule = { 
+    StudentClassSchedule: {
+        TermIndex: string,
+        TermIndexName: string,
+        ErrorMessage: any,
+        IncludeAdditionalStaffWhenEmailingTeachers: boolean,
+        TodayScheduleInfoData: {
+            Date: string
+            SchoolInfos: {
+                SchoolInfo: any // replace with actual type later
+            }
+        },
+        ClassLists: {
+            ClassListing: Course[]
+        },
+        TermLists: {
+            TermListing: Term[]
+        }
+    }
+}
+
+// end types
 class StudentVueClient {
     username: string
     password: string
@@ -41,11 +96,12 @@ class StudentVueClient {
         return this._xmlJsonSerialize(this._makeServiceRequest('StudentInfo'));
     }
 
-    getSchedule(termIndex: number | undefined) {
+    getSchedule(termIndex: number | undefined): StudentVueSchedule | StudentVueError {
         let params = {};
         if (typeof termIndex !== 'undefined') {
             params = { TermIndex: termIndex };
         }
+        // @ts-ignore cant really fix this
         return this._xmlJsonSerialize(this._makeServiceRequest('StudentClassList', params));
     }
 
@@ -70,7 +126,7 @@ class StudentVueClient {
     }
 
     _xmlJsonSerialize(servicePromise: Promise<any>) {
-        return servicePromise.then(result => xml2json.toJson(result[0].ProcessWebServiceRequestResult));
+        return servicePromise.then(result => xml2json.toJson(result[0].ProcessWebServiceRequestResult,{ object: true }));
     }
 
     _makeServiceRequest(methodName: string, params = {}, serviceHandle = 'PXPWebServices') {
