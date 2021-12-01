@@ -1,0 +1,307 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> index.ts</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="StudentVueClient.html">StudentVueClient</a></li></ul><h3>Global</h3><ul><li><a href="global.html#isError">isError</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>index.ts</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import * as soap from 'soap'
+import * as xml2json from 'xml2json'
+// TODO: replace any type with cool custom types
+// BODY: types like StudentVueSchedule
+
+// begin types
+// im guessing that it returns the same format for all schools
+// im going to be screwed if not
+
+export type Course = {
+    Period: string,
+    CourseTitle: string,
+    RoomName: string,
+    TeacherName: string,
+    TeacherEmail: string,
+    SectionGU: string,
+    TeacherStaffGU: string
+}
+export type Term = {
+    TermIndex: string,
+    TermCode: string,
+    TermName: string,
+    BeginDate: string,
+    EndDate: string,
+    SchoolYearTrmCodeGU: string,
+    TermDefCodes: {
+        TermDefCode: {
+            TermDefName: string
+        }[]
+    }
+}
+/**  Error from studentvue */
+export type StudentVueError = {
+    RT_ERROR: { ERROR_MESSAGE: string, STACK_TRACE: string }
+}
+
+/** Check if the output of a StudentVueClient function is an error */
+export function isError(response: any): response is StudentVueError {
+    return response &amp;&amp; response.RT_ERROR
+}
+
+export type StudentVueSchedule = { 
+    StudentClassSchedule: {
+        TermIndex: string,
+        TermIndexName: string,
+        ErrorMessage: any,
+        IncludeAdditionalStaffWhenEmailingTeachers: boolean,
+        TodayScheduleInfoData: {
+            Date: string
+            SchoolInfos: {
+                SchoolInfo: any // replace with actual type later
+            }
+        },
+        ClassLists: {
+            ClassListing: Course[]
+        },
+        TermLists: {
+            TermListing: Term[]
+        }
+    }
+}
+
+// end types
+/** Main studentvue class */
+class StudentVueClient {
+    username: string
+    password: string
+    client: soap.Client
+    constructor(username: string, password: string, client: soap.Client) { 
+        this.username = username;
+        this.password = password;
+
+        this.client = client;
+    }
+    /** get messages from teachers / school */
+    getMessages() {
+        return this._xmlJsonSerialize(this._makeServiceRequest('GetPXPMessages'));
+    }
+    /** get assignments / events from calendar */
+    getCalendar() {
+        return this._xmlJsonSerialize(this._makeServiceRequest('StudentCalendar'));
+    }
+    /** get past attendance */
+    getAttendance() {
+        return this._xmlJsonSerialize(this._makeServiceRequest('Attendance'));
+    }
+    /** get grades and assignments from the specified reporting period, or the current grades if no reporting period is specified
+     * @param {number} [reportPeriod] - Reporting Period
+     */
+    getGradebook(reportPeriod: number | undefined) {
+        let params = {};
+        if (typeof reportPeriod !== 'undefined') {
+            params = { ReportPeriod: reportPeriod };
+        }
+        return this._xmlJsonSerialize(this._makeServiceRequest('Gradebook', params));
+    }
+    /** get provided class notes */
+    getClassNotes() {
+        return this._xmlJsonSerialize(this._makeServiceRequest('StudentHWNotes'));
+    }
+    /** get school's info on the student */
+    getStudentInfo() {
+        return this._xmlJsonSerialize(this._makeServiceRequest('StudentInfo'));
+    }
+    /** get student's schedule from the specified term, or the current schedule if no term is specified
+     * @param {number} [termIndex]
+     * @returns {StudentVueSchedule | StudentVueError}
+     */
+    getSchedule(termIndex: number | undefined): StudentVueSchedule | StudentVueError {
+        let params = {};
+        if (typeof termIndex !== 'undefined') {
+            params = { TermIndex: termIndex };
+        }
+        // @ts-ignore cant really fix this
+        return this._xmlJsonSerialize(this._makeServiceRequest('StudentClassList', params));
+    }
+
+    getSchoolInfo() {
+        return this._xmlJsonSerialize(this._makeServiceRequest('StudentSchoolInfo'));
+    }
+
+    listReportCards() {
+        return this._xmlJsonSerialize(this._makeServiceRequest('GetReportCardInitialData'));
+    }
+
+    getReportCard(documentGuid: string | undefined) {
+        return this._xmlJsonSerialize(this._makeServiceRequest('GetReportCardDocumentData', { DocumentGU: documentGuid }));
+    }
+
+    listDocuments() {
+        return this._xmlJsonSerialize(this._makeServiceRequest('GetStudentDocumentInitialData'));
+    }
+
+    getDocument(documentGuid: string | undefined) {
+        return this._xmlJsonSerialize(this._makeServiceRequest('GetContentOfAttachedDoc', { DocumentGU: documentGuid }));
+    }
+
+    _xmlJsonSerialize(servicePromise: Promise&lt;any>) {
+        return servicePromise.then(result => xml2json.toJson(result[0].ProcessWebServiceRequestResult,{ object: true }));
+    }
+
+    _makeServiceRequest(methodName: string, params = {}, serviceHandle = 'PXPWebServices') {
+        let paramStr = '&amp;lt;Parms&amp;gt;';
+        Object.entries(params).forEach(([key, value]) => {
+            paramStr += '&amp;lt;' + key + '&amp;gt;';
+            paramStr += value;
+            paramStr += '&amp;lt;/' + key + '&amp;gt;';
+        });
+        paramStr += '&amp;lt;/Parms&amp;gt;';
+
+        return this.client.ProcessWebServiceRequestAsync({
+            userID: this.username,
+            password: this.password,
+            skipLoginLog: 1,
+            parent: 0,
+            webServiceHandleName: serviceHandle,
+            methodName,
+            paramStr
+        });
+    }
+}
+
+export function login(url: string, username: string, password: string, soapOptions = {}) {
+    const host = new URL(url).host;
+    const endpoint = `https://${ host }/Service/PXPCommunication.asmx`;
+
+    const resolvedOptions = Object.assign({
+        endpoint: endpoint, // enforces https
+        escapeXML: false
+    }, soapOptions);
+
+    const wsdlURL = endpoint + '?WSDL';
+
+    return soap.createClientAsync(wsdlURL, resolvedOptions)
+        .then(client => new StudentVueClient(username, password, client));
+}
+
+export function getDistrictUrls(zipCode: number) {
+    return soap.createClientAsync('https://support.edupoint.com/Service/HDInfoCommunication.asmx?WSDL', {
+        endpoint: 'https://support.edupoint.com/Service/HDInfoCommunication.asmx',
+        escapeXML: false
+    })
+        .then(client => {
+            const supportClient = new StudentVueClient('EdupointDistrictInfo', 'Edup01nt', client);
+            return supportClient._xmlJsonSerialize(supportClient._makeServiceRequest('GetMatchingDistrictList', {
+                MatchToDistrictZipCode: zipCode,
+                Key: '5E4B7859-B805-474B-A833-FDB15D205D40' // idk how safe this is
+            }, 'HDInfoServices'));
+        });
+}
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+</body>
+</html>
