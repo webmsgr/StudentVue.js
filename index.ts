@@ -57,7 +57,7 @@ class StudentVueClient {
         return this._xmlJsonSerialize(this._makeServiceRequest('GetReportCardInitialData'));
     }
 
-    getReportCard(documentGuid: any) {
+    getReportCard(documentGuid: string | undefined) {
         return this._xmlJsonSerialize(this._makeServiceRequest('GetReportCardDocumentData', { DocumentGU: documentGuid }));
     }
 
@@ -65,7 +65,7 @@ class StudentVueClient {
         return this._xmlJsonSerialize(this._makeServiceRequest('GetStudentDocumentInitialData'));
     }
 
-    getDocument(documentGuid: any) {
+    getDocument(documentGuid: string | undefined) {
         return this._xmlJsonSerialize(this._makeServiceRequest('GetContentOfAttachedDoc', { DocumentGU: documentGuid }));
     }
 
