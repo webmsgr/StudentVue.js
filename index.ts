@@ -30,6 +30,11 @@ export type Term = {
         }[]
     }
 }
+/**
+ * If you see this, it means that the type has not been implemented yet.
+ * This does not mean that the function hasn't been implemented, just the type
+ */
+export type NotImplemented = {[key: string]: unknown}
 /**  Error from studentvue */
 export type StudentVueError = {
     RT_ERROR: { ERROR_MESSAGE: string, STACK_TRACE: string }
@@ -78,33 +83,51 @@ class StudentVueClient {
 
         this.client = client;
     }
-    /** get messages from teachers / school */
-    getMessages() {
+    /** get messages from teachers / school 
+     * @returns {NotImplemented | StudentVueError} Messages
+    */
+    getMessages(): NotImplemented | StudentVueError {
+        // @ts-ignore
         return this._xmlJsonSerialize(this._makeServiceRequest('GetPXPMessages'));
     }
-    /** get assignments / events from calendar */
-    getCalendar() {
+    /** get assignments / events from calendar 
+     * @returns {NotImplemented | StudentVueError} Calendar
+    */
+    getCalendar(): NotImplemented | StudentVueError {
+        // @ts-ignore
         return this._xmlJsonSerialize(this._makeServiceRequest('StudentCalendar'));
     }
-    /** get past attendance */
-    getAttendance() {
+    /** get past attendance 
+     * @returns {NotImplemented | StudentVueError} Past Attendance
+    */
+    getAttendance(): NotImplemented | StudentVueError {
+        // @ts-ignore
         return this._xmlJsonSerialize(this._makeServiceRequest('Attendance'));
     }
     /** get grades and assignments from the specified reporting period, or the current grades if no reporting period is specified
+     * @param {number} reportPeriod - Reporting Period to get
+     * @returns {NotImplemented | StudentVueError} Gradebook
      */
-    getGradebook(reportPeriod: number | undefined) {
+    getGradebook(reportPeriod: number | undefined): NotImplemented | StudentVueError {
         let params = {};
         if (typeof reportPeriod !== 'undefined') {
             params = { ReportPeriod: reportPeriod };
         }
+        // @ts-ignore
         return this._xmlJsonSerialize(this._makeServiceRequest('Gradebook', params));
     }
-    /** get provided class notes */
-    getClassNotes() {
+    /** get provided class notes 
+     * @returns {NotImplemented | StudentVueError} Class Notes
+    */
+    getClassNotes(): NotImplemented | StudentVueError {
+        // @ts-ignore
         return this._xmlJsonSerialize(this._makeServiceRequest('StudentHWNotes'));
     }
-    /** get school's info on the student */
-    getStudentInfo() {
+    /** get school's info on the student
+     * @returns {NotImplemented | StudentVueError} School Info
+     */
+    getStudentInfo(): NotImplemented | StudentVueError {
+        // @ts-ignore
         return this._xmlJsonSerialize(this._makeServiceRequest('StudentInfo'));
     }
     /** get student's schedule from the specified term, or the current schedule if no term is specified
@@ -119,28 +142,41 @@ class StudentVueClient {
         // @ts-ignore cant really fix this
         return this._xmlJsonSerialize(this._makeServiceRequest('StudentClassList', params));
     }
-    /** get school info */
-    getSchoolInfo() {
+    /** get school info 
+     * @returns {NotImplemented | StudentVueError} School Info
+    */
+    getSchoolInfo(): NotImplemented | StudentVueError {
+        // @ts-ignore
         return this._xmlJsonSerialize(this._makeServiceRequest('StudentSchoolInfo'));
     }
-    /** list all uploaded report card documents */
-    listReportCards() {
+    /** list all uploaded report card documents 
+     * @returns {NotImplemented | StudentVueError} Report Cards
+    */
+    listReportCards(): NotImplemented | StudentVueError {
+        // @ts-ignore
         return this._xmlJsonSerialize(this._makeServiceRequest('GetReportCardInitialData'));
     }
     /** get content of a report card document by it's guid
      * @param {string} [documentGuid] - Report Card to get
+     * @returns {NotImplemented | StudentVueError} Report Card
      */
-    getReportCard(documentGuid: string | undefined) {
+    getReportCard(documentGuid: string | undefined): NotImplemented | StudentVueError {
+        // @ts-ignore
         return this._xmlJsonSerialize(this._makeServiceRequest('GetReportCardDocumentData', { DocumentGU: documentGuid }));
     }
-    /** list all uploaded documents */
-    listDocuments() {
+    /** list all uploaded documents 
+     * @returns {NotImplemented | StudentVueError} Documents
+    */
+    listDocuments(): NotImplemented | StudentVueError {
+        // @ts-ignore
         return this._xmlJsonSerialize(this._makeServiceRequest('GetStudentDocumentInitialData'));
     }
     /** get content of a document by it's guid 
      * @param {string} [documentGuid] - document to get
+     * @returns {NotImplemented | StudentVueError} Document
     */
-    getDocument(documentGuid: string | undefined) {
+    getDocument(documentGuid: string | undefined): NotImplemented | StudentVueError {
+        // @ts-ignore
         return this._xmlJsonSerialize(this._makeServiceRequest('GetContentOfAttachedDoc', { DocumentGU: documentGuid }));
     }
 
@@ -191,7 +227,7 @@ export function login(url: string, username: string, password: string, soapOptio
 }
 /** Get district urls from zipCode 
  * @param {number} zipCode - zipcode to search for
- * @returns {Promise<any>} District info around zipCode
+ * @returns {Promise<NotImplemented>} District info around zipCode
 */
 export function getDistrictUrls(zipCode: number) {
     return soap.createClientAsync('https://support.edupoint.com/Service/HDInfoCommunication.asmx?WSDL', {
