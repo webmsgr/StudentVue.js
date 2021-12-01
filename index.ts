@@ -5,7 +5,7 @@ class StudentVueClient {
     username: string
     password: string
     client: any
-    constructor(username: string, password: string, client: any) { // does the soap client have typescript bindings?
+    constructor(username: string, password: string, client: soap.Client) { 
         this.username = username;
         this.password = password;
 
