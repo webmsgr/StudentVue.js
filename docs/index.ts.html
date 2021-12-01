@@ -68,7 +68,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="StudentVueClient.html">StudentVueClient</a></li></ul><h3>Global</h3><ul><li><a href="global.html#isError">isError</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="StudentVueClient.html">StudentVueClient</a></li></ul><h3>Global</h3><ul><li><a href="global.html#getDistrictUrls">getDistrictUrls</a></li><li><a href="global.html#isError">isError</a></li><li><a href="global.html#login">login</a></li></ul></div>
                 
             </nav>
         </div>
@@ -172,7 +172,6 @@ class StudentVueClient {
         return this._xmlJsonSerialize(this._makeServiceRequest('Attendance'));
     }
     /** get grades and assignments from the specified reporting period, or the current grades if no reporting period is specified
-     * @param {number} [reportPeriod] - Reporting Period
      */
     getGradebook(reportPeriod: number | undefined) {
         let params = {};
@@ -190,8 +189,6 @@ class StudentVueClient {
         return this._xmlJsonSerialize(this._makeServiceRequest('StudentInfo'));
     }
     /** get student's schedule from the specified term, or the current schedule if no term is specified
-     * @param {number} [termIndex]
-     * @returns {StudentVueSchedule | StudentVueError}
      */
     getSchedule(termIndex: number | undefined): StudentVueSchedule | StudentVueError {
         let params = {};
@@ -201,23 +198,23 @@ class StudentVueClient {
         // @ts-ignore cant really fix this
         return this._xmlJsonSerialize(this._makeServiceRequest('StudentClassList', params));
     }
-
+    /** get school info */
     getSchoolInfo() {
         return this._xmlJsonSerialize(this._makeServiceRequest('StudentSchoolInfo'));
     }
-
+    /** list all uploaded report card documents */
     listReportCards() {
         return this._xmlJsonSerialize(this._makeServiceRequest('GetReportCardInitialData'));
     }
-
+    /** get content of a report card document by it's guid */
     getReportCard(documentGuid: string | undefined) {
         return this._xmlJsonSerialize(this._makeServiceRequest('GetReportCardDocumentData', { DocumentGU: documentGuid }));
     }
-
+    /** list all uploaded documents */
     listDocuments() {
         return this._xmlJsonSerialize(this._makeServiceRequest('GetStudentDocumentInitialData'));
     }
-
+    /** get content of a document by it's guid */
     getDocument(documentGuid: string | undefined) {
         return this._xmlJsonSerialize(this._makeServiceRequest('GetContentOfAttachedDoc', { DocumentGU: documentGuid }));
     }
@@ -246,7 +243,7 @@ class StudentVueClient {
         });
     }
 }
-
+/** Login to studentvue */
 export function login(url: string, username: string, password: string, soapOptions = {}) {
     const host = new URL(url).host;
     const endpoint = `https://${ host }/Service/PXPCommunication.asmx`;
@@ -261,7 +258,7 @@ export function login(url: string, username: string, password: string, soapOptio
     return soap.createClientAsync(wsdlURL, resolvedOptions)
         .then(client => new StudentVueClient(username, password, client));
 }
-
+/** Get district urls from zipCode */
 export function getDistrictUrls(zipCode: number) {
     return soap.createClientAsync('https://support.edupoint.com/Service/HDInfoCommunication.asmx?WSDL', {
         endpoint: 'https://support.edupoint.com/Service/HDInfoCommunication.asmx',

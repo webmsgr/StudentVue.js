@@ -156,7 +156,7 @@ class StudentVueClient {
         });
     }
 }
-
+/** Login to studentvue */
 export function login(url: string, username: string, password: string, soapOptions = {}) {
     const host = new URL(url).host;
     const endpoint = `https://${ host }/Service/PXPCommunication.asmx`;
@@ -171,7 +171,7 @@ export function login(url: string, username: string, password: string, soapOptio
     return soap.createClientAsync(wsdlURL, resolvedOptions)
         .then(client => new StudentVueClient(username, password, client));
 }
-
+/** Get district urls from zipCode */
 export function getDistrictUrls(zipCode: number) {
     return soap.createClientAsync('https://support.edupoint.com/Service/HDInfoCommunication.asmx?WSDL', {
         endpoint: 'https://support.edupoint.com/Service/HDInfoCommunication.asmx',

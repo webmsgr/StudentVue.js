@@ -66,7 +66,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="StudentVueClient.html">StudentVueClient</a></li></ul><h3>Global</h3><ul><li><a href="global.html#isError">isError</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="StudentVueClient.html">StudentVueClient</a></li></ul><h3>Global</h3><ul><li><a href="global.html#getDistrictUrls">getDistrictUrls</a></li><li><a href="global.html#isError">isError</a></li><li><a href="global.html#login">login</a></li></ul></div>
                 
             </nav>
         </div>
@@ -483,7 +483,7 @@
         <p class="tag-source">
             <a href="index.ts.html" class="button">View Source</a>
             <span>
-                <a href="index.ts.html">index.ts</a>, <a href="index.ts.html#line39">line 39</a>
+                <a href="index.ts.html">index.ts</a>, <a href="index.ts.html#line38">line 38</a>
             </span>
         </p>
     
@@ -515,12 +515,12 @@
 
 
     
-    <h4 class="name" id="getGradebook">
-        <a class="href-link" href="#getGradebook">#</a>
+    <h4 class="name" id="getDocument">
+        <a class="href-link" href="#getDocument">#</a>
         
         <span class="code-name">
             
-                getGradebook<span class="signature">(reportPeriod<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span>
+                getDocument<span class="signature">()</span><span class="type-signature"></span>
             
         </span>
     </h4>
@@ -529,7 +529,7 @@
     
     
     <div class="description">
-        get grades and assignments from the specified reporting period, or the current grades if no reporting period is specified
+        get content of a document by it's guid
     </div>
     
 
@@ -540,69 +540,6 @@
 
 
 
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-            <th>Attributes</th>
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>reportPeriod</code></td>
-  
-
-  <td class="type">
-  
-      
-<span class="param-type">number</span>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last">Reporting Period</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
 
 
 
@@ -643,7 +580,104 @@
         <p class="tag-source">
             <a href="index.ts.html" class="button">View Source</a>
             <span>
-                <a href="index.ts.html">index.ts</a>, <a href="index.ts.html#line31">line 31</a>
+                <a href="index.ts.html">index.ts</a>, <a href="index.ts.html#line72">line 72</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="getGradebook">
+        <a class="href-link" href="#getGradebook">#</a>
+        
+        <span class="code-name">
+            
+                getGradebook<span class="signature">()</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        get grades and assignments from the specified reporting period, or the current grades if no reporting period is specified
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="index.ts.html" class="button">View Source</a>
+            <span>
+                <a href="index.ts.html">index.ts</a>, <a href="index.ts.html#line30">line 30</a>
             </span>
         </p>
     
@@ -772,12 +806,12 @@
 
 
     
-    <h4 class="name" id="getSchedule">
-        <a class="href-link" href="#getSchedule">#</a>
+    <h4 class="name" id="getReportCard">
+        <a class="href-link" href="#getReportCard">#</a>
         
         <span class="code-name">
             
-                getSchedule<span class="signature">(termIndex<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {StudentVueSchedule|<a href="global.html#StudentVueError">StudentVueError</a>}</span>
+                getReportCard<span class="signature">()</span><span class="type-signature"></span>
             
         </span>
     </h4>
@@ -786,7 +820,7 @@
     
     
     <div class="description">
-        get student's schedule from the specified term, or the current schedule if no term is specified
+        get content of a report card document by it's guid
     </div>
     
 
@@ -797,69 +831,6 @@
 
 
 
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-            <th>Attributes</th>
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>termIndex</code></td>
-  
-
-  <td class="type">
-  
-      
-<span class="param-type">number</span>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last"></td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
 
 
 
@@ -900,7 +871,7 @@
         <p class="tag-source">
             <a href="index.ts.html" class="button">View Source</a>
             <span>
-                <a href="index.ts.html">index.ts</a>, <a href="index.ts.html#line50">line 50</a>
+                <a href="index.ts.html">index.ts</a>, <a href="index.ts.html#line64">line 64</a>
             </span>
         </p>
     
@@ -923,31 +894,199 @@
 
 
 
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<span class="param-type">StudentVueSchedule</span>
-|
-
-<span class="param-type"><a href="global.html#StudentVueError">StudentVueError</a></span>
 
 
-    </div>
-    
+
 </div>
+            
+                <div class="member">
 
-                
-        </div>
+
+    
+    <h4 class="name" id="getSchedule">
+        <a class="href-link" href="#getSchedule">#</a>
+        
+        <span class="code-name">
+            
+                getSchedule<span class="signature">()</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        get student's schedule from the specified term, or the current schedule if no term is specified
     </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="index.ts.html" class="button">View Source</a>
+            <span>
+                <a href="index.ts.html">index.ts</a>, <a href="index.ts.html#line47">line 47</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="getSchoolInfo">
+        <a class="href-link" href="#getSchoolInfo">#</a>
+        
+        <span class="code-name">
+            
+                getSchoolInfo<span class="signature">()</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        get school info
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="index.ts.html" class="button">View Source</a>
+            <span>
+                <a href="index.ts.html">index.ts</a>, <a href="index.ts.html#line56">line 56</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1023,7 +1162,201 @@
         <p class="tag-source">
             <a href="index.ts.html" class="button">View Source</a>
             <span>
-                <a href="index.ts.html">index.ts</a>, <a href="index.ts.html#line43">line 43</a>
+                <a href="index.ts.html">index.ts</a>, <a href="index.ts.html#line42">line 42</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="listDocuments">
+        <a class="href-link" href="#listDocuments">#</a>
+        
+        <span class="code-name">
+            
+                listDocuments<span class="signature">()</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        list all uploaded documents
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="index.ts.html" class="button">View Source</a>
+            <span>
+                <a href="index.ts.html">index.ts</a>, <a href="index.ts.html#line68">line 68</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="listReportCards">
+        <a class="href-link" href="#listReportCards">#</a>
+        
+        <span class="code-name">
+            
+                listReportCards<span class="signature">()</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        list all uploaded report card documents
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="index.ts.html" class="button">View Source</a>
+            <span>
+                <a href="index.ts.html">index.ts</a>, <a href="index.ts.html#line60">line 60</a>
             </span>
         </p>
     
