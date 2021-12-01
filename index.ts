@@ -5,7 +5,7 @@ import * as xml2json from 'xml2json'
 class StudentVueClient {
     username: string
     password: string
-    client: any
+    client: soap.Client
     constructor(username: string, password: string, client: soap.Client) { 
         this.username = username;
         this.password = password;
