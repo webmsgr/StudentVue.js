@@ -1,8 +1,11 @@
-const soap = require('soap');
-const xml2json = require('xml2json');
+import * as soap from 'soap'
+import * as xml2json from 'xml2json'
 
 class StudentVueClient {
-    constructor(username, password, client) {
+    username: string
+    password: string
+    client: any
+    constructor(username: string, password: string, client: any) { // does the soap client have typescript bindings?
         this.username = username;
         this.password = password;
 
@@ -37,12 +40,12 @@ class StudentVueClient {
         return this._xmlJsonSerialize(this._makeServiceRequest('StudentInfo'));
     }
 
-    getSchedule(termIndex) {
+    getSchedule(termIndex: number) {
         let params = {};
         if (typeof termIndex !== 'undefined') {
-            params.TermIndex = termIndex;
+            params = { TermIndex: termIndex };
         }
-        return this._xmlJsonSerialize(this._makeServiceRequest('StudentClassList'));
+        return this._xmlJsonSerialize(this._makeServiceRequest('StudentClassList', params));
     }
 
     getSchoolInfo() {
@@ -69,7 +72,7 @@ class StudentVueClient {
         return servicePromise.then(result => xml2json.toJson(result[0].ProcessWebServiceRequestResult));
     }
 
-    _makeServiceRequest(methodName, params = {}, serviceHandle = 'PXPWebServices') {
+    _makeServiceRequest(methodName: string, params = {}, serviceHandle = 'PXPWebServices') {
         let paramStr = '&lt;Parms&gt;';
         Object.entries(params).forEach(([key, value]) => {
             paramStr += '&lt;' + key + '&gt;';
