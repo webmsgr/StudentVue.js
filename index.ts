@@ -29,11 +29,15 @@ export type Term = {
         }[]
     }
 }
-
+/**  Error from studentvue */
 export type StudentVueError = {
     RT_ERROR: { ERROR_MESSAGE: string, STACK_TRACE: string }
 }
 
+/** Check if the output of a StudentVueClient function is an error */
+export function isError(response: any): response is StudentVueError {
+    return response && response.RT_ERROR
+}
 
 export type StudentVueSchedule = { 
     StudentClassSchedule: {
@@ -67,19 +71,21 @@ class StudentVueClient {
 
         this.client = client;
     }
-
+    /** get messages from teachers / school */
     getMessages() {
         return this._xmlJsonSerialize(this._makeServiceRequest('GetPXPMessages'));
     }
-
+    /** get assignments / events from calendar */
     getCalendar() {
         return this._xmlJsonSerialize(this._makeServiceRequest('StudentCalendar'));
     }
-
+    /** get past attendance */
     getAttendance() {
         return this._xmlJsonSerialize(this._makeServiceRequest('Attendance'));
     }
-
+    /** get grades and assignments from the specified reporting period, or the current grades if no reporting period is specified
+     * @param {number} [reportPeriod] - Reporting Period
+     */
     getGradebook(reportPeriod: number | undefined) {
         let params = {};
         if (typeof reportPeriod !== 'undefined') {

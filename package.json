@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "docs": "tsc && jsdoc dist/index.js -d doc"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
   },
   "devDependencies": {
     "@types/xml2json": "^0.11.4",
+    "jsdoc": "^3.6.7",
     "typescript": "^4.5.2"
   }
 }
