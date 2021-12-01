@@ -6,7 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "docs": "tsc && jsdoc dist/index.js -d doc"
+    "docs": "jsdoc -c jsdoc.json README.md index.ts -d doc"
   },
   "repository": {
     "type": "git",
@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@types/xml2json": "^0.11.4",
+    "better-docs": "^2.3.2",
     "jsdoc": "^3.6.7",
     "typescript": "^4.5.2"
   }

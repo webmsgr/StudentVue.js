@@ -61,6 +61,7 @@ export type StudentVueSchedule = {
 }
 
 // end types
+/** Main studentvue class */
 class StudentVueClient {
     username: string
     password: string
@@ -84,7 +85,6 @@ class StudentVueClient {
         return this._xmlJsonSerialize(this._makeServiceRequest('Attendance'));
     }
     /** get grades and assignments from the specified reporting period, or the current grades if no reporting period is specified
-     * @param {number} [reportPeriod] - Reporting Period
      */
     getGradebook(reportPeriod: number | undefined) {
         let params = {};
@@ -93,15 +93,16 @@ class StudentVueClient {
         }
         return this._xmlJsonSerialize(this._makeServiceRequest('Gradebook', params));
     }
-
+    /** get provided class notes */
     getClassNotes() {
         return this._xmlJsonSerialize(this._makeServiceRequest('StudentHWNotes'));
     }
-
+    /** get school's info on the student */
     getStudentInfo() {
         return this._xmlJsonSerialize(this._makeServiceRequest('StudentInfo'));
     }
-
+    /** get student's schedule from the specified term, or the current schedule if no term is specified
+     */
     getSchedule(termIndex: number | undefined): StudentVueSchedule | StudentVueError {
         let params = {};
         if (typeof termIndex !== 'undefined') {
@@ -110,23 +111,23 @@ class StudentVueClient {
         // @ts-ignore cant really fix this
         return this._xmlJsonSerialize(this._makeServiceRequest('StudentClassList', params));
     }
-
+    /** get school info */
     getSchoolInfo() {
         return this._xmlJsonSerialize(this._makeServiceRequest('StudentSchoolInfo'));
     }
-
+    /** list all uploaded report card documents */
     listReportCards() {
         return this._xmlJsonSerialize(this._makeServiceRequest('GetReportCardInitialData'));
     }
-
+    /** get content of a report card document by it's guid */
     getReportCard(documentGuid: string | undefined) {
         return this._xmlJsonSerialize(this._makeServiceRequest('GetReportCardDocumentData', { DocumentGU: documentGuid }));
     }
-
+    /** list all uploaded documents */
     listDocuments() {
         return this._xmlJsonSerialize(this._makeServiceRequest('GetStudentDocumentInitialData'));
     }
-
+    /** get content of a document by it's guid */
     getDocument(documentGuid: string | undefined) {
         return this._xmlJsonSerialize(this._makeServiceRequest('GetContentOfAttachedDoc', { DocumentGU: documentGuid }));
     }
