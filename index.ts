@@ -40,8 +40,9 @@ export type StudentVueError = {
     RT_ERROR: { ERROR_MESSAGE: string, STACK_TRACE: string }
 }
 
+
 /** Check if the output of a StudentVueClient function is an error 
- * @param {any} response
+ * @param {StudentVueResponse<any>} response
  * @returns boolean
 */
 export function isError(response: any): response is StudentVueError {
@@ -84,21 +85,21 @@ class StudentVueClient {
         this.client = client;
     }
     /** get messages from teachers / school 
-     * @returns {NotImplemented | StudentVueError} Messages
+     * @returns {(NotImplemented | StudentVueError)} Messages
     */
     getMessages(): NotImplemented | StudentVueError {
         // @ts-ignore
         return this._xmlJsonSerialize(this._makeServiceRequest('GetPXPMessages'));
     }
     /** get assignments / events from calendar 
-     * @returns {NotImplemented | StudentVueError} Calendar
+     * @returns {(NotImplemented | StudentVueError)} Calendar
     */
     getCalendar(): NotImplemented | StudentVueError {
         // @ts-ignore
         return this._xmlJsonSerialize(this._makeServiceRequest('StudentCalendar'));
     }
     /** get past attendance 
-     * @returns {NotImplemented | StudentVueError} Past Attendance
+     * @returns {(NotImplemented | StudentVueError)} Past Attendance
     */
     getAttendance(): NotImplemented | StudentVueError {
         // @ts-ignore
@@ -106,7 +107,7 @@ class StudentVueClient {
     }
     /** get grades and assignments from the specified reporting period, or the current grades if no reporting period is specified
      * @param {number} reportPeriod - Reporting Period to get
-     * @returns {NotImplemented | StudentVueError} Gradebook
+     * @returns {(NotImplemented | StudentVueError)} Gradebook
      */
     getGradebook(reportPeriod: number | undefined): NotImplemented | StudentVueError {
         let params = {};
@@ -117,14 +118,14 @@ class StudentVueClient {
         return this._xmlJsonSerialize(this._makeServiceRequest('Gradebook', params));
     }
     /** get provided class notes 
-     * @returns {NotImplemented | StudentVueError} Class Notes
+     * @returns {(NotImplemented | StudentVueError)} Class Notes
     */
     getClassNotes(): NotImplemented | StudentVueError {
         // @ts-ignore
         return this._xmlJsonSerialize(this._makeServiceRequest('StudentHWNotes'));
     }
     /** get school's info on the student
-     * @returns {NotImplemented | StudentVueError} School Info
+     * @returns {(NotImplemented | StudentVueError)} School Info
      */
     getStudentInfo(): NotImplemented | StudentVueError {
         // @ts-ignore
@@ -132,7 +133,7 @@ class StudentVueClient {
     }
     /** get student's schedule from the specified term, or the current schedule if no term is specified
      * @param {number} [termIndex]
-     * @returns {StudentVueSchedule | StudentVueError}
+     * @returns {(StudentVueSchedule | StudentVueError)}
      */
     getSchedule(termIndex: number | undefined): StudentVueSchedule | StudentVueError {
         let params = {};
@@ -143,14 +144,14 @@ class StudentVueClient {
         return this._xmlJsonSerialize(this._makeServiceRequest('StudentClassList', params));
     }
     /** get school info 
-     * @returns {NotImplemented | StudentVueError} School Info
+     * @returns {(NotImplemented | StudentVueError)} School Info
     */
     getSchoolInfo(): NotImplemented | StudentVueError {
         // @ts-ignore
         return this._xmlJsonSerialize(this._makeServiceRequest('StudentSchoolInfo'));
     }
     /** list all uploaded report card documents 
-     * @returns {NotImplemented | StudentVueError} Report Cards
+     * @returns {(NotImplemented | StudentVueError)} Report Cards
     */
     listReportCards(): NotImplemented | StudentVueError {
         // @ts-ignore
@@ -158,14 +159,14 @@ class StudentVueClient {
     }
     /** get content of a report card document by it's guid
      * @param {string} [documentGuid] - Report Card to get
-     * @returns {NotImplemented | StudentVueError} Report Card
+     * @returns {(NotImplemented | StudentVueError)} Report Card
      */
     getReportCard(documentGuid: string | undefined): NotImplemented | StudentVueError {
         // @ts-ignore
         return this._xmlJsonSerialize(this._makeServiceRequest('GetReportCardDocumentData', { DocumentGU: documentGuid }));
     }
     /** list all uploaded documents 
-     * @returns {NotImplemented | StudentVueError} Documents
+     * @returns {(NotImplemented | StudentVueError)} Documents
     */
     listDocuments(): NotImplemented | StudentVueError {
         // @ts-ignore
@@ -173,7 +174,7 @@ class StudentVueClient {
     }
     /** get content of a document by it's guid 
      * @param {string} [documentGuid] - document to get
-     * @returns {NotImplemented | StudentVueError} Document
+     * @returns {(NotImplemented | StudentVueError)} Document
     */
     getDocument(documentGuid: string | undefined): NotImplemented | StudentVueError {
         // @ts-ignore
