@@ -1,6 +1,7 @@
 import * as soap from 'soap'
 import * as xml2json from 'xml2json'
-
+// TODO: replace any type with cool custom types
+// BODY: types like StudentVueSchedule
 class StudentVueClient {
     username: string
     password: string
@@ -24,10 +25,10 @@ class StudentVueClient {
         return this._xmlJsonSerialize(this._makeServiceRequest('Attendance'));
     }
 
-    getGradebook(reportPeriod) {
+    getGradebook(reportPeriod: number | undefined) {
         let params = {};
         if (typeof reportPeriod !== 'undefined') {
-            params.ReportPeriod = reportPeriod;
+            params = { ReportPeriod: reportPeriod };
         }
         return this._xmlJsonSerialize(this._makeServiceRequest('Gradebook', params));
     }
@@ -40,7 +41,7 @@ class StudentVueClient {
         return this._xmlJsonSerialize(this._makeServiceRequest('StudentInfo'));
     }
 
-    getSchedule(termIndex: number) {
+    getSchedule(termIndex: number | undefined) {
         let params = {};
         if (typeof termIndex !== 'undefined') {
             params = { TermIndex: termIndex };
@@ -56,7 +57,7 @@ class StudentVueClient {
         return this._xmlJsonSerialize(this._makeServiceRequest('GetReportCardInitialData'));
     }
 
-    getReportCard(documentGuid) {
+    getReportCard(documentGuid: any) {
         return this._xmlJsonSerialize(this._makeServiceRequest('GetReportCardDocumentData', { DocumentGU: documentGuid }));
     }
 
@@ -64,11 +65,11 @@ class StudentVueClient {
         return this._xmlJsonSerialize(this._makeServiceRequest('GetStudentDocumentInitialData'));
     }
 
-    getDocument(documentGuid) {
+    getDocument(documentGuid: any) {
         return this._xmlJsonSerialize(this._makeServiceRequest('GetContentOfAttachedDoc', { DocumentGU: documentGuid }));
     }
 
-    _xmlJsonSerialize(servicePromise) {
+    _xmlJsonSerialize(servicePromise: Promise<any>) {
         return servicePromise.then(result => xml2json.toJson(result[0].ProcessWebServiceRequestResult));
     }
 
@@ -93,7 +94,7 @@ class StudentVueClient {
     }
 }
 
-function login(url, username, password, soapOptions = {}) {
+export function login(url: string, username: string, password: string, soapOptions = {}) {
     const host = new URL(url).host;
     const endpoint = `https://${ host }/Service/PXPCommunication.asmx`;
 
@@ -108,7 +109,7 @@ function login(url, username, password, soapOptions = {}) {
         .then(client => new StudentVueClient(username, password, client));
 }
 
-function getDistrictUrls(zipCode) {
+export function getDistrictUrls(zipCode: number) {
     return soap.createClientAsync('https://support.edupoint.com/Service/HDInfoCommunication.asmx?WSDL', {
         endpoint: 'https://support.edupoint.com/Service/HDInfoCommunication.asmx',
         escapeXML: false
@@ -122,4 +123,3 @@ function getDistrictUrls(zipCode) {
         });
 }
 
-module.exports = { login, getDistrictUrls };
