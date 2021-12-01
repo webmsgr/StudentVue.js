@@ -6,7 +6,7 @@ import * as xml2json from 'xml2json'
 // begin types
 // im guessing that it returns the same format for all schools
 // im going to be screwed if not
-
+/** StudentVue Course */
 export type Course = {
     Period: string,
     CourseTitle: string,
@@ -16,6 +16,7 @@ export type Course = {
     SectionGU: string,
     TeacherStaffGU: string
 }
+/** StudentVue Term */
 export type Term = {
     TermIndex: string,
     TermCode: string,
@@ -34,11 +35,14 @@ export type StudentVueError = {
     RT_ERROR: { ERROR_MESSAGE: string, STACK_TRACE: string }
 }
 
-/** Check if the output of a StudentVueClient function is an error */
+/** Check if the output of a StudentVueClient function is an error 
+ * @param {any} response
+ * @returns boolean
+*/
 export function isError(response: any): response is StudentVueError {
     return response && response.RT_ERROR
 }
-
+/** A schedule from studentvue */
 export type StudentVueSchedule = { 
     StudentClassSchedule: {
         TermIndex: string,
@@ -66,6 +70,8 @@ class StudentVueClient {
     username: string
     password: string
     client: soap.Client
+    /** Dont use this, use the {@link login|login} function instead 
+    */
     constructor(username: string, password: string, client: soap.Client) { 
         this.username = username;
         this.password = password;
@@ -102,6 +108,8 @@ class StudentVueClient {
         return this._xmlJsonSerialize(this._makeServiceRequest('StudentInfo'));
     }
     /** get student's schedule from the specified term, or the current schedule if no term is specified
+     * @param {number} [termIndex]
+     * @returns {StudentVueSchedule | StudentVueError}
      */
     getSchedule(termIndex: number | undefined): StudentVueSchedule | StudentVueError {
         let params = {};
@@ -119,7 +127,9 @@ class StudentVueClient {
     listReportCards() {
         return this._xmlJsonSerialize(this._makeServiceRequest('GetReportCardInitialData'));
     }
-    /** get content of a report card document by it's guid */
+    /** get content of a report card document by it's guid
+     * @param {string} [documentGuid] - Report Card to get
+     */
     getReportCard(documentGuid: string | undefined) {
         return this._xmlJsonSerialize(this._makeServiceRequest('GetReportCardDocumentData', { DocumentGU: documentGuid }));
     }
@@ -127,7 +137,9 @@ class StudentVueClient {
     listDocuments() {
         return this._xmlJsonSerialize(this._makeServiceRequest('GetStudentDocumentInitialData'));
     }
-    /** get content of a document by it's guid */
+    /** get content of a document by it's guid 
+     * @param {string} [documentGuid] - document to get
+    */
     getDocument(documentGuid: string | undefined) {
         return this._xmlJsonSerialize(this._makeServiceRequest('GetContentOfAttachedDoc', { DocumentGU: documentGuid }));
     }
@@ -156,8 +168,14 @@ class StudentVueClient {
         });
     }
 }
-/** Login to studentvue */
-export function login(url: string, username: string, password: string, soapOptions = {}) {
+/** Login to studentvue 
+ * @param {string} url - Url of portal (mobile url)
+ * @param {string} username - Username
+ * @param {string} password - Password
+ * @param {soap.IOptions} soapOptions - Options for soap client
+ * @returns {Promise<StudentVueClient>}
+*/
+export function login(url: string, username: string, password: string, soapOptions: soap.IOptions = {}) {
     const host = new URL(url).host;
     const endpoint = `https://${ host }/Service/PXPCommunication.asmx`;
 
@@ -171,7 +189,10 @@ export function login(url: string, username: string, password: string, soapOptio
     return soap.createClientAsync(wsdlURL, resolvedOptions)
         .then(client => new StudentVueClient(username, password, client));
 }
-/** Get district urls from zipCode */
+/** Get district urls from zipCode 
+ * @param {number} zipCode - zipcode to search for
+ * @returns {Promise<any>} District info around zipCode
+*/
 export function getDistrictUrls(zipCode: number) {
     return soap.createClientAsync('https://support.edupoint.com/Service/HDInfoCommunication.asmx?WSDL', {
         endpoint: 'https://support.edupoint.com/Service/HDInfoCommunication.asmx',

@@ -36,20 +36,10 @@ StudentVue.getDistrictUrls('zip code').then(console.log);
 }
 ```
 
-## Methods
+## Documentation
+You can generate the documentaion with jsdoc
 
-Example responses and more documentation to come.
+`npm run docs`
 
-### StudentVueClient.getMessages() - get messages from teachers / school
-### StudentVueClient.getCalendar() - get assignments / events from calendar
-### StudentVueClient.getAttendance() - get past attendance
-### StudentVueClient.getGradebook([, reportPeriod]) - get grades and assignments from the specified reporting period, or the current grades if no reporting period is specified
-### StudentVueClient.getClassNotes() - get provided class notes
-### StudentVueClient.getStudentInfo() - get school's info on the student
-### StudentVueClient.getSchedule([, termIndex]) - get student's schedule from the specified term, or the current schedule if no term is specified
-### StudentVueClient.getSchoolInfo() - get school info
-### StudentVueClient.listReportCards() - list all uploaded report card documents
-### StudentVueClient.getReportCard(documentGuid) - get content of a report card document by it's guid
-### StudentVueClient.listDocuments() - list all uploaded documents
-### StudentVueClient.getDocument(documentGuid) - get content of a document by it's guid
+Outputed docs are in docs/
 
