@@ -7,8 +7,9 @@
   "scripts": {
     "build": "tsc",
     "docs": "jsdoc -c jsdoc.json README.md index.ts -d docs",
-    "pretest": "tsc",
-    "test": "node doTests.js"
+    "pretest": "mkdir -p tests && tsc",
+    "test": "node doTests.js",
+    "posttest": "cd tests && tsc test-run.ts && rm test-run.ts test-run.js"
   },
   "repository": {
     "type": "git",
