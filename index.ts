@@ -42,7 +42,7 @@ export type StudentVueError = {
 
 
 /** Check if the output of a StudentVueClient function is an error 
- * @param {StudentVueResponse<any>} response
+ * @param {any} response
  * @returns boolean
 */
 export function isError(response: any): response is StudentVueError {
