@@ -6,7 +6,9 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "docs": "jsdoc -c jsdoc.json README.md index.ts -d docs"
+    "docs": "jsdoc -c jsdoc.json README.md index.ts -d docs",
+    "pretest": "tsc",
+    "test": "node doTests.js"
   },
   "repository": {
     "type": "git",
