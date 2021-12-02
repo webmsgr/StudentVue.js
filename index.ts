@@ -11,10 +11,11 @@ export type Course = {
     Period: string,
     CourseTitle: string,
     RoomName: string,
-    TeacherName: string,
+    Teacher: string,
     TeacherEmail: string,
     SectionGU: string,
-    TeacherStaffGU: string
+    TeacherStaffGU: string,
+    AdditionalStaffInformationXMLs: {}
 }
 /** StudentVue Term */
 export type Term = {
@@ -51,10 +52,13 @@ export function isError(response: any): response is StudentVueError {
 /** A schedule from studentvue */
 export type StudentVueSchedule = { 
     StudentClassSchedule: {
+        "xmlns:xsd": "http://www.w3.org/2001/XMLSchema",
+        "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
         TermIndex: string,
         TermIndexName: string,
         ErrorMessage: any,
-        IncludeAdditionalStaffWhenEmailingTeachers: boolean,
+        /** Either true/false */
+        IncludeAdditionalStaffWhenEmailingTeachers: string,
         TodayScheduleInfoData: {
             Date: string
             SchoolInfos: {
@@ -85,31 +89,31 @@ class StudentVueClient {
         this.client = client;
     }
     /** get messages from teachers / school 
-     * @returns {(NotImplemented | StudentVueError)} Messages
+     * @returns {Promise<(NotImplemented | StudentVueError)>} Messages
     */
-    getMessages(): NotImplemented | StudentVueError {
+    getMessages(): Promise<NotImplemented | StudentVueError> {
         // @ts-ignore
         return this._xmlJsonSerialize(this._makeServiceRequest('GetPXPMessages'));
     }
     /** get assignments / events from calendar 
-     * @returns {(NotImplemented | StudentVueError)} Calendar
+     * @returns {Promise<(NotImplemented | StudentVueError)>} Calendar
     */
-    getCalendar(): NotImplemented | StudentVueError {
+    getCalendar(): Promise<NotImplemented | StudentVueError> {
         // @ts-ignore
         return this._xmlJsonSerialize(this._makeServiceRequest('StudentCalendar'));
     }
     /** get past attendance 
-     * @returns {(NotImplemented | StudentVueError)} Past Attendance
+     * @returns {Promise<(NotImplemented | StudentVueError)>} Past Attendance
     */
-    getAttendance(): NotImplemented | StudentVueError {
+    getAttendance(): Promise<NotImplemented | StudentVueError> {
         // @ts-ignore
         return this._xmlJsonSerialize(this._makeServiceRequest('Attendance'));
     }
     /** get grades and assignments from the specified reporting period, or the current grades if no reporting period is specified
      * @param {number} reportPeriod - Reporting Period to get
-     * @returns {(NotImplemented | StudentVueError)} Gradebook
+     * @returns {Promise<(NotImplemented | StudentVueError)>} Gradebook
      */
-    getGradebook(reportPeriod: number | undefined): NotImplemented | StudentVueError {
+    getGradebook(reportPeriod: number | undefined): Promise<NotImplemented | StudentVueError> {
         let params = {};
         if (typeof reportPeriod !== 'undefined') {
             params = { ReportPeriod: reportPeriod };
@@ -118,24 +122,24 @@ class StudentVueClient {
         return this._xmlJsonSerialize(this._makeServiceRequest('Gradebook', params));
     }
     /** get provided class notes 
-     * @returns {(NotImplemented | StudentVueError)} Class Notes
+     * @returns {Promise<(NotImplemented | StudentVueError)>} Class Notes
     */
-    getClassNotes(): NotImplemented | StudentVueError {
+    getClassNotes(): Promise<NotImplemented | StudentVueError> {
         // @ts-ignore
         return this._xmlJsonSerialize(this._makeServiceRequest('StudentHWNotes'));
     }
     /** get school's info on the student
-     * @returns {(NotImplemented | StudentVueError)} School Info
+     * @returns {Promise<(NotImplemented | StudentVueError)>} School Info
      */
-    getStudentInfo(): NotImplemented | StudentVueError {
+    getStudentInfo(): Promise<NotImplemented | StudentVueError> {
         // @ts-ignore
         return this._xmlJsonSerialize(this._makeServiceRequest('StudentInfo'));
     }
     /** get student's schedule from the specified term, or the current schedule if no term is specified
      * @param {number} [termIndex]
-     * @returns {(StudentVueSchedule | StudentVueError)}
+     * @returns {Promise<(StudentVueSchedule | StudentVueError)>}
      */
-    getSchedule(termIndex: number | undefined): StudentVueSchedule | StudentVueError {
+    getSchedule(termIndex: number | undefined): Promise<StudentVueSchedule | StudentVueError> {
         let params = {};
         if (typeof termIndex !== 'undefined') {
             params = { TermIndex: termIndex };
@@ -144,39 +148,39 @@ class StudentVueClient {
         return this._xmlJsonSerialize(this._makeServiceRequest('StudentClassList', params));
     }
     /** get school info 
-     * @returns {(NotImplemented | StudentVueError)} School Info
+     * @returns {Promise<(NotImplemented | StudentVueError)>} School Info
     */
-    getSchoolInfo(): NotImplemented | StudentVueError {
+    getSchoolInfo(): Promise<NotImplemented | StudentVueError> {
         // @ts-ignore
         return this._xmlJsonSerialize(this._makeServiceRequest('StudentSchoolInfo'));
     }
     /** list all uploaded report card documents 
-     * @returns {(NotImplemented | StudentVueError)} Report Cards
+     * @returns {Promise<(NotImplemented | StudentVueError)>} Report Cards
     */
-    listReportCards(): NotImplemented | StudentVueError {
+    listReportCards(): Promise<NotImplemented | StudentVueError> {
         // @ts-ignore
         return this._xmlJsonSerialize(this._makeServiceRequest('GetReportCardInitialData'));
     }
     /** get content of a report card document by it's guid
      * @param {string} [documentGuid] - Report Card to get
-     * @returns {(NotImplemented | StudentVueError)} Report Card
+     * @returns {Promise<(NotImplemented | StudentVueError)>} Report Card
      */
-    getReportCard(documentGuid: string | undefined): NotImplemented | StudentVueError {
+    getReportCard(documentGuid: string | undefined): Promise<NotImplemented | StudentVueError> {
         // @ts-ignore
         return this._xmlJsonSerialize(this._makeServiceRequest('GetReportCardDocumentData', { DocumentGU: documentGuid }));
     }
     /** list all uploaded documents 
-     * @returns {(NotImplemented | StudentVueError)} Documents
+     * @returns {Promise<(NotImplemented | StudentVueError)>} Documents
     */
-    listDocuments(): NotImplemented | StudentVueError {
+    listDocuments(): Promise<NotImplemented | StudentVueError> {
         // @ts-ignore
         return this._xmlJsonSerialize(this._makeServiceRequest('GetStudentDocumentInitialData'));
     }
     /** get content of a document by it's guid 
      * @param {string} [documentGuid] - document to get
-     * @returns {(NotImplemented | StudentVueError)} Document
+     * @returns {Promise<(NotImplemented | StudentVueError)>} Document
     */
-    getDocument(documentGuid: string | undefined): NotImplemented | StudentVueError {
+    getDocument(documentGuid: string | undefined): Promise<NotImplemented | StudentVueError> {
         // @ts-ignore
         return this._xmlJsonSerialize(this._makeServiceRequest('GetContentOfAttachedDoc', { DocumentGU: documentGuid }));
     }

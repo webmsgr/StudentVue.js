@@ -106,3 +106,8 @@ dist
 .idea/
 # jsdocs
 docs/
+
+# tests
+test-run.ts
+test-run.js
+tests/
